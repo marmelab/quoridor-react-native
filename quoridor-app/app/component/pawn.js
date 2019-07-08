@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
 const styles = StyleSheet.create({
   pawn: {
@@ -8,21 +9,27 @@ const styles = StyleSheet.create({
   }
 });
 
-export class Pawn extends React.Component {
-  render() {
-    return (
-      <Text
-        style={[
-          styles.pawn,
-          {
-            color: this.props.color,
-            top: this.props.position.top,
-            left: this.props.position.left
-          }
-        ]}
-      >
-        &#9823;
-      </Text>
-    );
-  }
-}
+const Pawn = ({ color, position }) => {
+  return (
+    <Text
+      style={[
+        styles.pawn,
+        {
+          color: color,
+          top: position.top,
+          left: position.left
+        }
+      ]}
+    >
+      &#9823;
+    </Text>
+  );
+};
+
+Pawn.prototype = {
+  color: PropTypes.string.isRequired,
+  top: PropTypes.number.isRequired,
+  left: PropTypes.number.isRequired
+};
+
+export default Pawn;

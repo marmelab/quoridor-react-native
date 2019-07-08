@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
-import { GameAPI } from "../api/game_api";
-import { Board } from "../component/board.js";
+import Board from "../component/board.js";
+import { createGame } from "../api/gameApi";
 
 const styles = StyleSheet.create({
   container: {
@@ -14,51 +14,48 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class GameScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      laoding: true,
-      game: { board: { squares: [] }, pawns: [] }
+const renderLoading = () => {
+  return (
+    <View>
+      <ActivityIndicator size="large" color="#0000ff" />
+    </View>
+  );
+};
+
+const renderGame = game => {
+  return (
+    <View>
+      <Text>Player Turn: {game.pawnTurn}</Text>
+      <Board squares={game.board.squares} pawns={game.pawns} />
+    </View>
+  );
+};
+
+const GameScreen = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [game, setGame] = useState({ board: { squares: [] }, pawns: [] });
+
+  useEffect(() => {
+    const fetchGame = () => {
+      setIsLoading(true);
+      createGame()
+        .then(game => {
+          setGame(game);
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.log({ err });
+          setIsLoading(false);
+        });
     };
-  }
+    fetchGame();
+  });
 
-  componentDidMount() {
-    new GameAPI()
-      .createGame()
-      .then(data => {
-        this.setState({ game: data, laoding: false });
-      })
-      .catch(err => console.log({ err }));
-  }
+  return (
+    <View style={styles.container}>
+      {isLoading ? renderLoading() : renderGame(game)}
+    </View>
+  );
+};
 
-  renderLoading() {
-    return (
-      <View>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
-  renderGame() {
-    return (
-      <View>
-        <Text>Player Turn: {this.state.game.pawnTurn}</Text>
-        <Board
-          squares={this.state.game.board.squares}
-          pawns={this.state.game.pawns}
-        />
-      </View>
-    );
-  }
-
-  render() {
-    const isLoading = this.state.loading;
-
-    return (
-      <View style={styles.container}>
-        {isLoading ? this.renderLoading() : this.renderGame()}
-      </View>
-    );
-  }
-}
+export default GameScreen;

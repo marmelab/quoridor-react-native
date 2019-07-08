@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
 const styles = StyleSheet.create({
   square: {
@@ -10,18 +11,23 @@ const styles = StyleSheet.create({
   }
 });
 
-export class Square extends React.Component {
-  render() {
-    return (
-      <View
-        style={[
-          styles.square,
-          {
-            top: this.props.position.top,
-            left: this.props.position.left
-          }
-        ]}
-      />
-    );
-  }
-}
+const Square = ({ position }) => {
+  return (
+    <View
+      style={[
+        styles.square,
+        {
+          top: position.top,
+          left: position.left
+        }
+      ]}
+    />
+  );
+};
+
+Square.prototype = {
+  top: PropTypes.number.isRequired,
+  left: PropTypes.number.isRequired
+};
+
+export default Square;
