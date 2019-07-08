@@ -9,12 +9,3 @@ it("renders correctly", () => {
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
-
-describe("<Pawn />", () => {
-  it("has no child", () => {
-    const tree = renderer
-      .create(<Pawn color="red" position="{top: 0, left: 10}" />)
-      .toJSON();
-    expect(tree.children.length).toBe(0);
-  });
-});

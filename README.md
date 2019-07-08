@@ -17,3 +17,11 @@ Run the application
 ```
 make start
 ```
+
+## Test
+
+Run tests of the application
+
+```
+make test
+```
