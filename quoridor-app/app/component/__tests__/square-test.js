@@ -1,11 +1,11 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { Pawn } from "../pawn";
+import { Square } from "../square";
 
 it("renders correctly", () => {
   const tree = renderer
-    .create(<Pawn color="red" position="{top: 0, left: 10}" />)
+    .create(<Square position="{top: 0, left: 10}" />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -13,7 +13,7 @@ it("renders correctly", () => {
 describe("<Pawn />", () => {
   it("has no child", () => {
     const tree = renderer
-      .create(<Pawn color="red" position="{top: 0, left: 10}" />)
+      .create(<Square position="{top: 0, left: 10}" />)
       .toJSON();
     expect(tree.children.length).toBe(0);
   });

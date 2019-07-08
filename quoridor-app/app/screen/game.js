@@ -27,7 +27,6 @@ export default class GameScreen extends React.Component {
     new GameAPI()
       .createGame()
       .then(data => {
-        console.log(data.board.squares);
         this.setState({ game: data, laoding: false });
       })
       .catch(err => console.log({ err }));

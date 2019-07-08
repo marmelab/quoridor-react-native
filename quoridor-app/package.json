@@ -5,7 +5,11 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "dependencies": {
     "expo": "33.0.7",
@@ -17,10 +21,8 @@
   },
   "devDependencies": {
     "babel-preset-expo": "5.2.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "jest-expo": "^33.0.2",
-    "react-test-renderer": "^16.8.6"
+    "jest-expo": "33.0.2",
+    "react-test-renderer": "16.8.6"
   },
   "private": true
 }
