@@ -14,7 +14,7 @@ make install
 
 ## Start
 
-Run the application. Before starrting the application set your environment variables in ./quoridor-app/environment.js
+Run the application. Before starting the application set your environment variables in ./quoridor-app/environment.js
 
 ```
 make start
