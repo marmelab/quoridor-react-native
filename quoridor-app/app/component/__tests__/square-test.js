@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 
 import Square from "../square";
 
-describe("Square Componenet tests", () => {
+describe("Square Component tests", () => {
   it("should renders the right component", () => {
     const tree = renderer
       .create(<Square position="{top: 0, left: 10}" />)

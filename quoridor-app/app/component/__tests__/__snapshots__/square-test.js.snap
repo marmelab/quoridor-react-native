@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Square Componenet tests should renders the right component 1`] = `
+exports[`Square Component tests should renders the right component 1`] = `
 <View
   style={
     Array [
