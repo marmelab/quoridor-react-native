@@ -28,8 +28,10 @@ const Pawn = ({ color, position }) => {
 
 Pawn.prototype = {
   color: PropTypes.string.isRequired,
-  top: PropTypes.number.isRequired,
-  left: PropTypes.number.isRequired
+  position: PropTypes.shape({
+    top: PropTypes.number.isRequired,
+    left: PropTypes.number.isRequired
+  }).isRequired
 };
 
 export default Pawn;

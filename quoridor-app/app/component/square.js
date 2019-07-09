@@ -26,8 +26,10 @@ const Square = ({ position }) => {
 };
 
 Square.prototype = {
-  top: PropTypes.number.isRequired,
-  left: PropTypes.number.isRequired
+  position: PropTypes.shape({
+    top: PropTypes.number.isRequired,
+    left: PropTypes.number.isRequired
+  }).isRequired
 };
 
 export default Square;
