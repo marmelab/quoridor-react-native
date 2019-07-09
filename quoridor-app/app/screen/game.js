@@ -38,7 +38,9 @@ const GameScreen = () => {
   useEffect(() => {
     const fetchGame = () => {
       setIsLoading(true);
+
       createGame()
+        .then(response => response.json())
         .then(game => {
           setGame(game);
           setIsLoading(false);
@@ -49,7 +51,7 @@ const GameScreen = () => {
         });
     };
     fetchGame();
-  });
+  }, []);
 
   return (
     <View style={styles.container}>

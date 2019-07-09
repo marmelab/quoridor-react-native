@@ -1,11 +1,14 @@
-const API_PATH = "http://192.168.86.56:8383/games";
+import getEnvVars from "../../environment";
+
+const { API_BASE_URL } = getEnvVars();
+
 const JSON_TYPE = "application/json";
 
 const DEFAULT_BOARD_SIZE = 9;
 const DEFAULT_NUMBER_OF_FENCES_PER_PLAYER = 10;
 
 export const createGame = async () => {
-  const response = await fetch(API_PATH, {
+  return await fetch(`${API_BASE_URL}/games`, {
     method: "POST",
     headers: {
       Accept: JSON_TYPE,
@@ -16,16 +19,14 @@ export const createGame = async () => {
       numberOfFencesPerPlayer: DEFAULT_NUMBER_OF_FENCES_PER_PLAYER
     })
   });
-  return await response.json();
 };
 
 export const joinGame = async gameId => {
-  const response = await fetch(`${API_PATH}/${gameId}/join`, {
+  return await fetch(`${API_BASE_URL}/games/${gameId}/join`, {
     method: "PUT",
     headers: {
       Accept: JSON_TYPE,
       "Content-Type": JSON_TYPE
     }
   });
-  return await response.json();
 };
