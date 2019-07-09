@@ -5,7 +5,7 @@ import Board from "../board";
 import Pawn from "../pawn";
 import Square from "../square";
 
-describe("Board Componenet tests", () => {
+describe("Board Component tests", () => {
   it("should render with two squares and one pawn both well positioned", () => {
     const testRenderer = renderer.create(
       <Board
