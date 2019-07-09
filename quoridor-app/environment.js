@@ -2,7 +2,7 @@ import { Constants } from "expo";
 
 const ENV = {
   dev: {
-    API_BASE_URL: "[your.dev.api.here]"
+    API_BASE_URL: "http://192.168.86.56:8383"
   },
   prod: {
     API_BASE_URL: "[your.production.api.here]"

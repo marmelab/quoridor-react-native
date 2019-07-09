@@ -18,6 +18,10 @@ const PAWN_TOP_PADDING = BOARD_PADDING - 6;
 const PAWN_LEFT_PADDING = BOARD_PADDING + 4;
 const PAWN_COLORS = ["rgb(217, 54, 59)", "rgb(184, 88, 46)"];
 
+const generateKey = (type, position) => {
+  return `${type}:${position.column}${position.row}`;
+};
+
 const Board = ({ squares, pawns }) => {
   if (!squares) {
     return null;
@@ -25,9 +29,9 @@ const Board = ({ squares, pawns }) => {
 
   return (
     <View style={styles.board}>
-      {squares.map((item, key) => (
+      {squares.map((item, _) => (
         <Square
-          key={key}
+          key={generateKey("square", item)}
           position={{
             top: item.row * DELTA + BOARD_PADDING,
             left: item.column * DELTA + BOARD_PADDING
@@ -36,7 +40,7 @@ const Board = ({ squares, pawns }) => {
       ))}
       {pawns.map((item, key) => (
         <Pawn
-          key={key}
+          key={generateKey("pawn", item.position)}
           color={PAWN_COLORS[key]}
           position={{
             top: item.position.row * DELTA + PAWN_TOP_PADDING,
