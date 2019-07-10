@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
 const styles = StyleSheet.create({
@@ -11,14 +11,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const Square = ({ position }) => {
+const Square = props => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={props.onClick}
       style={[
         styles.square,
         {
-          top: position.top,
-          left: position.left
+          top: props.position.top,
+          left: props.position.left
         }
       ]}
     />

@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 
 import Pawn from "./pawn";
 import Square from "./square";
+import { setRecoveryProps } from "expo/build/ErrorRecovery/ErrorRecovery";
 
 const styles = StyleSheet.create({
   board: {
@@ -22,23 +23,24 @@ const generateKey = (type, position) => {
   return `${type}:${position.column}${position.row}`;
 };
 
-const Board = ({ squares, pawns }) => {
-  if (!squares) {
+const Board = props => {
+  if (!props.squares) {
     return null;
   }
 
   return (
     <View style={styles.board}>
-      {squares.map((item, _) => (
+      {props.squares.map((item, _) => (
         <Square
           key={generateKey("square", item)}
           position={{
             top: item.row * DELTA + BOARD_PADDING,
             left: item.column * DELTA + BOARD_PADDING
           }}
+          onClick={() => props.onClick(item)}
         />
       ))}
-      {pawns.map((item, key) => (
+      {props.pawns.map((item, key) => (
         <Pawn
           key={generateKey("pawn", item.position)}
           color={PAWN_COLORS[key]}

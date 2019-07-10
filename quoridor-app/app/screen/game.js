@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
 import Board from "../component/board.js";
-import { createGame } from "../api/gameApi";
+import { createGame, joinGame, movePawn } from "../api/gameApi";
 
 const styles = StyleSheet.create({
   container: {
@@ -22,40 +22,80 @@ const renderLoading = () => {
   );
 };
 
-const renderGame = game => {
+const renderGame = (game, setAction) => {
   return (
     <View>
       <Text>Player Turn: {game.pawnTurn}</Text>
-      <Board squares={game.board.squares} pawns={game.pawns} />
+      <Board
+        squares={game.board.squares}
+        pawns={game.pawns}
+        onClick={item => handleClickMove(item, setAction)}
+      />
     </View>
   );
 };
 
+const handleClickMove = (item, setAction) => {
+  setAction(item);
+};
+
+const joinTheGame = async (gameId, players, setPlayers) => {
+  const response = await joinGame(gameId);
+  const content = await response.json();
+  if (!response.ok) {
+    console.err(content);
+  }
+  players.push(content.AuthToken);
+  setPlayers(players);
+};
+
+const initGame = async (setIsLoading, players, setPlayers, setGame) => {
+  setIsLoading(true);
+  const response = await createGame();
+  const content = await response.json();
+  if (!response.ok) {
+    console.log(content);
+    return;
+  }
+  setGame(content);
+
+  joinTheGame(content.id, players, setPlayers);
+  joinTheGame(content.id, players, setPlayers);
+
+  setIsLoading(false);
+};
+
+const moveThePawn = async (position, players, game, setGame) => {
+  console.log({ players });
+  console.log(players[game.pawnTurn - 1]);
+  const response = await movePawn(
+    players[game.pawnTurn - 1],
+    game.id,
+    position
+  );
+  const content = await response.json();
+  if (!response.ok) {
+    return;
+  }
+  setGame(content);
+};
+
 const GameScreen = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [game, setGame] = useState({ board: { squares: [] }, pawns: [] });
+  const [players, setPlayers] = useState([]);
+  const [move, setMove] = useState();
 
   useEffect(() => {
-    const fetchGame = () => {
-      setIsLoading(true);
-
-      createGame()
-        .then(response => response.json())
-        .then(game => {
-          setGame(game);
-          setIsLoading(false);
-        })
-        .catch(err => {
-          console.log({ err });
-          setIsLoading(false);
-        });
-    };
-    fetchGame();
+    initGame(setIsLoading, players, setPlayers, setGame);
   }, []);
+  useEffect(() => {
+    moveThePawn(move, players, game, setGame);
+  }, [move]);
 
   return (
     <View style={styles.container}>
-      {isLoading ? renderLoading() : renderGame(game)}
+      {isLoading ? renderLoading() : renderGame(game, setMove)}
     </View>
   );
 };

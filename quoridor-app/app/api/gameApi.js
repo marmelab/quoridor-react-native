@@ -30,3 +30,15 @@ export const joinGame = async gameId => {
     }
   });
 };
+
+export const movePawn = async (authToken, gameId, position) => {
+  return await fetch(`${API_BASE_URL}/games/${gameId}/move-pawn`, {
+    method: "PUT",
+    headers: {
+      Accept: JSON_TYPE,
+      "Content-Type": JSON_TYPE,
+      Authorization: authToken
+    },
+    body: JSON.stringify(position)
+  });
+};
