@@ -4,19 +4,25 @@ Quoridor client in React Native. This project depends on [Quoridor Go](https://g
 
 ## Installation
 
-Install expo and all dependencies to run the react natve application.
+You need node installed on your computer then install Expo cli using the following command:
 
-> Expo cli should be installed globally: npm install expo-cli --global
+```
+npm install expo-cli --global
+
+```
+
+Install expo and all dependencies to run the react native application.
+
 
 ```
 make install
 ```
 
-Then set the environment variables in ./quoridor-app/environment.js.
+Finally set the environment variables in ./quoridor-app/environment.js.
 
 ## Start
 
-Run the application.
+Start the server from Quoridor Go project and run the application.
 
 ```
 make start
