@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "10"
+
+install: make install
+
+script: make test
+
+branches:
+  only:
+    - master

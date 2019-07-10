@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pawn Component tests should renders the right component 1`] = `
+<Text
+  style={
+    Array [
+      Object {
+        "fontSize": 30,
+        "position": "absolute",
+      },
+      Object {
+        "color": "red",
+        "left": undefined,
+        "top": undefined,
+      },
+    ]
+  }
+>
+  ♟
+</Text>
+`;

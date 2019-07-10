@@ -1,21 +1,20 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 
-const App = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-};
+import GameScreen from "./app/screen/game";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+const MainNavigation = createStackNavigator(
+  {
+    Game: { screen: GameScreen }
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    },
+    initialRouteName: "Game"
   }
-});
+);
+
+const App = createAppContainer(MainNavigation);
 
 export default App;
