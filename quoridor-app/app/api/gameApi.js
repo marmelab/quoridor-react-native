@@ -7,8 +7,8 @@ const JSON_TYPE = "application/json";
 const DEFAULT_BOARD_SIZE = 9;
 const DEFAULT_NUMBER_OF_FENCES_PER_PLAYER = 10;
 
-export const createGame = async () => {
-  return await fetch(`${API_BASE_URL}/games`, {
+export const createGame = () => {
+  return fetch(`${API_BASE_URL}/games`, {
     method: "POST",
     headers: {
       Accept: JSON_TYPE,
@@ -21,8 +21,8 @@ export const createGame = async () => {
   });
 };
 
-export const joinGame = async gameId => {
-  return await fetch(`${API_BASE_URL}/games/${gameId}/join`, {
+export const joinGame = gameId => {
+  return fetch(`${API_BASE_URL}/games/${gameId}/join`, {
     method: "PUT",
     headers: {
       Accept: JSON_TYPE,
@@ -31,8 +31,8 @@ export const joinGame = async gameId => {
   });
 };
 
-export const movePawn = async (authToken, gameId, position) => {
-  return await fetch(`${API_BASE_URL}/games/${gameId}/move-pawn`, {
+export const movePawn = (authToken, gameId, position) => {
+  return fetch(`${API_BASE_URL}/games/${gameId}/move-pawn`, {
     method: "PUT",
     headers: {
       Accept: JSON_TYPE,
@@ -43,8 +43,8 @@ export const movePawn = async (authToken, gameId, position) => {
   });
 };
 
-export const getPossiblePawnMoves = async gameId => {
-  return await fetch(`${API_BASE_URL}/games/${gameId}/move-pawn/possibilities`, {
+export const getPossiblePawnMoves = gameId => {
+  return fetch(`${API_BASE_URL}/games/${gameId}/move-pawn/possibilities`, {
     method: "GET",
     headers: {
       Accept: JSON_TYPE,

@@ -24,30 +24,27 @@ const generateKey = (type, position) => {
 };
 
 const isSquareDisabled = (moves, position) => {
-  const exist = moves.filter(
-    move => move.column === position.column && move.row === position.row
-  );
-  return exist.length === 0;
+  return !moves.some(move => move.column === position.column && move.row === position.row);
 };
 
-const Board = props => {
-  if (!props.squares) {
+const Board = ({squares, pawns, possibleMoves, onClick}) => {
+  if (!squares) {
     return null;
   }
   return (
     <View style={styles.board}>
-      {props.squares.map((item, _) => (
+      {squares.map((item, _) => (
         <Square
           key={generateKey("square", item)}
           position={{
             top: item.row * DELTA + BOARD_PADDING,
             left: item.column * DELTA + BOARD_PADDING
           }}
-          disable={isSquareDisabled(props.possibleMoves, item)}
-          onClick={() => props.onClick(item)}
+          disable={isSquareDisabled(possibleMoves, item)}
+          onClick={() => onClick(item)}
         />
       ))}
-      {props.pawns.map((item, key) => (
+      {pawns.map((item, key) => (
         <Pawn
           key={generateKey("pawn", item.position)}
           color={PAWN_COLORS[key]}

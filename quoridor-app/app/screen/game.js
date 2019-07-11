@@ -41,6 +41,7 @@ const getPossibleMoves = async (gameId, setPossibleMoves) => {
   const content = await response.json();
   if (!response.ok) {
     console.error(content);
+    return;
   }
   setPossibleMoves(content);
 };
@@ -50,6 +51,7 @@ const joinTheGame = async (gameId, players, setPlayers) => {
   const content = await response.json();
   if (!response.ok) {
     console.error(content);
+    return;
   }
   players.push(content.AuthToken);
   setPlayers(players);
