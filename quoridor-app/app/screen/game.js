@@ -20,9 +20,16 @@ const renderLoading = () => (
   </View>
 );
 
+const getMessage = game => {
+  if (game.over) {
+    return <Text>Player: {game.pawnTurn} won !</Text>
+  }
+  return <Text>Player Turn: {game.pawnTurn}</Text>
+}
+
 const renderGame = ({game, setMove, possiblesMoves}) => (
   <View>
-    <Text>Player Turn: {game.pawnTurn}</Text>
+    {getMessage(game)}
     <Board
       squares={game.board.squares}
       possibleMoves={possiblesMoves}
@@ -86,7 +93,11 @@ const moveThePawn = async (position, {players, game, setGame, setPossibleMoves})
     return;
   }
   setGame(content);
-  getPossibleMoves(content.id, setPossibleMoves);
+  if (content.over) {
+    setPossibleMoves([]);
+  } else {
+    getPossibleMoves(content.id, setPossibleMoves);
+  }
 };
 
 const GameScreen = () => {
