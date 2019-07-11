@@ -33,7 +33,7 @@ const Board = ({squares, pawns, possibleMoves, onClick}) => {
   }
   return (
     <View style={styles.board}>
-      {squares.map((item, _) => (
+      {squares.map(item => (
         <Square
           key={generateKey("square", item)}
           position={{
@@ -44,10 +44,10 @@ const Board = ({squares, pawns, possibleMoves, onClick}) => {
           onClick={() => onClick(item)}
         />
       ))}
-      {pawns.map((item, key) => (
+      {pawns.map((item, index) => (
         <Pawn
           key={generateKey("pawn", item.position)}
-          color={PAWN_COLORS[key]}
+          color={PAWN_COLORS[index]}
           position={{
             top: item.position.row * DELTA + PAWN_TOP_PADDING,
             left: item.position.column * DELTA + PAWN_LEFT_PADDING
