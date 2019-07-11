@@ -40,7 +40,7 @@ const getPossibleMoves = async (gameId, setPossibleMoves) => {
   const response = await getPossiblePawnMoves(gameId);
   const content = await response.json();
   if (!response.ok) {
-    console.err(content);
+    console.error(content);
   }
   setPossibleMoves(content);
 };
@@ -49,7 +49,7 @@ const joinTheGame = async (gameId, players, setPlayers) => {
   const response = await joinGame(gameId);
   const content = await response.json();
   if (!response.ok) {
-    console.err(content);
+    console.error(content);
   }
   players.push(content.AuthToken);
   setPlayers(players);
