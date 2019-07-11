@@ -20,7 +20,7 @@ const renderLoading = () => (
   </View>
 );
 
-const renderGame = (game, setMove, possiblesMoves) => (
+const renderGame = ({game, setMove, possiblesMoves}) => (
   <View>
     <Text>Player Turn: {game.pawnTurn}</Text>
     <Board
@@ -57,7 +57,7 @@ const joinTheGame = async (gameId, players, setPlayers) => {
   setPlayers(players);
 };
 
-const initGame = async (setIsLoading, players, setPlayers, setGame, setPossibleMoves) => {
+const initGame = async ({setIsLoading, players, setPlayers, setGame, setPossibleMoves}) => {
   setIsLoading(true);
   const response = await createGame();
   const content = await response.json();
@@ -73,14 +73,13 @@ const initGame = async (setIsLoading, players, setPlayers, setGame, setPossibleM
   setIsLoading(false);
 };
 
-const moveThePawn = async (position, players, game, setGame, setPossibleMoves) => {
+const moveThePawn = async (position, {players, game, setGame, setPossibleMoves}) => {
   if (!position) {
     return;
   }
   const response = await movePawn(
     players[game.pawnTurn - 1],
-    game.id,
-    position
+    {gameId: game.id, position: position}
   );
   const content = await response.json();
   if (!response.ok) {
@@ -98,15 +97,15 @@ const GameScreen = () => {
   const [move, setMove] = useState();
 
   useEffect(() => {
-    initGame(setIsLoading, players, setPlayers, setGame, setPossibleMoves);
+    initGame({setIsLoading, players, setPlayers, setGame, setPossibleMoves});
   }, []);
   useEffect(() => {
-    moveThePawn(move, players, game, setGame, setPossibleMoves);
+    moveThePawn(move, {players, game, setGame, setPossibleMoves});
   }, [move]);
 
   return (
     <View style={styles.container}>
-      {isLoading ? renderLoading() : renderGame(game, setMove, possiblesMoves)}
+      {isLoading ? renderLoading() : renderGame({game, setMove, possiblesMoves})}
     </View>
   );
 };

@@ -31,15 +31,15 @@ export const joinGame = gameId => {
   });
 };
 
-export const movePawn = (authToken, gameId, position) => {
-  return fetch(`${API_BASE_URL}/games/${gameId}/move-pawn`, {
+export const movePawn = (authToken, move) => {
+  return fetch(`${API_BASE_URL}/games/${move.gameId}/move-pawn`, {
     method: "PUT",
     headers: {
       Accept: JSON_TYPE,
       "Content-Type": JSON_TYPE,
       Authorization: authToken
     },
-    body: JSON.stringify(position)
+    body: JSON.stringify(move.position)
   });
 };
 
