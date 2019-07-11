@@ -33,7 +33,6 @@ const renderGame = (game, setMove, possiblesMoves) => (
 );
 
 const handleClickMove = (item, setMove) => {
-  console.trace();
   setMove(item);
 };
 

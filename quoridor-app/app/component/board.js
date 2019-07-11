@@ -34,7 +34,6 @@ const Board = props => {
   if (!props.squares) {
     return null;
   }
-  console.log(props);
   return (
     <View style={styles.board}>
       {props.squares.map((item, _) => (
