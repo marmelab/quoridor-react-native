@@ -10,6 +10,7 @@ describe("Board Component tests", () => {
     const testRenderer = renderer.create(
       <Board
         squares={[{ column: 10, row: 8 }, { column: 10, row: 5 }]}
+        possibleMoves={[{ column: 10, row: 5 }]}
         pawns={[{ goal: 2, position: { column: 5, row: 2 } }]}
       />
     );

@@ -6,7 +6,7 @@ import Square from "../square";
 describe("Square Component tests", () => {
   it("should renders the right component", () => {
     const tree = renderer
-      .create(<Square position="{top: 0, left: 10}" />)
+      .create(<Square position="{top: 0, left: 10}" disable={true} />)
       .toJSON();
     expect(tree).toMatchSnapshot();
   });

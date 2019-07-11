@@ -1,9 +1,9 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
 import Pawn from "./pawn";
 import Square from "./square";
-import { setRecoveryProps } from "expo/build/ErrorRecovery/ErrorRecovery";
 
 const styles = StyleSheet.create({
   board: {
@@ -23,11 +23,18 @@ const generateKey = (type, position) => {
   return `${type}:${position.column}${position.row}`;
 };
 
+const isSquareDisabled = (moves, position) => {
+  const exist = moves.filter(
+    move => move.column === position.column && move.row === position.row
+  );
+  return exist.length === 0;
+};
+
 const Board = props => {
   if (!props.squares) {
     return null;
   }
-
+  console.log(props);
   return (
     <View style={styles.board}>
       {props.squares.map((item, _) => (
@@ -37,6 +44,7 @@ const Board = props => {
             top: item.row * DELTA + BOARD_PADDING,
             left: item.column * DELTA + BOARD_PADDING
           }}
+          disable={isSquareDisabled(props.possibleMoves, item)}
           onClick={() => props.onClick(item)}
         />
       ))}
@@ -52,6 +60,31 @@ const Board = props => {
       ))}
     </View>
   );
+};
+
+Board.prototype = {
+  squares: PropTypes.arrayOf(
+    PropTypes.shape({
+      column: PropTypes.number.isRequired,
+      row: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  possiblesMoves: PropTypes.arrayOf(
+    PropTypes.shape({
+      column: PropTypes.number.isRequired,
+      row: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  pawns: PropTypes.arrayOf(
+    PropTypes.shape({
+      position: PropTypes.shape({
+        column: PropTypes.number.isRequired,
+        row: PropTypes.number.isRequired,
+      }),
+      goal: PropTypes.number,
+    })
+  ).isRequired,
+  disable: PropTypes.bool,
 };
 
 export default Board;

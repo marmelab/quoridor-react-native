@@ -42,3 +42,12 @@ export const movePawn = async (authToken, gameId, position) => {
     body: JSON.stringify(position)
   });
 };
+
+export const getPossiblePawnMoves = async gameId => {
+  return await fetch(`${API_BASE_URL}/games/${gameId}/move-pawn/possibilities`, {
+    method: "GET",
+    headers: {
+      Accept: JSON_TYPE,
+    },
+  });
+};
