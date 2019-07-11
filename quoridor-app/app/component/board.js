@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
 import Pawn from "./pawn";
 import Square from "./square";
@@ -22,26 +23,31 @@ const generateKey = (type, position) => {
   return `${type}:${position.column}${position.row}`;
 };
 
-const Board = ({ squares, pawns }) => {
+const isSquareDisabled = (moves, position) => {
+  return !moves.some(move => move.column === position.column && move.row === position.row);
+};
+
+const Board = ({squares, pawns, possibleMoves, onClick}) => {
   if (!squares) {
     return null;
   }
-
   return (
     <View style={styles.board}>
-      {squares.map((item, _) => (
+      {squares.map(item => (
         <Square
           key={generateKey("square", item)}
           position={{
             top: item.row * DELTA + BOARD_PADDING,
             left: item.column * DELTA + BOARD_PADDING
           }}
+          disable={isSquareDisabled(possibleMoves, item)}
+          onClick={() => onClick(item)}
         />
       ))}
-      {pawns.map((item, key) => (
+      {pawns.map((item, index) => (
         <Pawn
           key={generateKey("pawn", item.position)}
-          color={PAWN_COLORS[key]}
+          color={PAWN_COLORS[index]}
           position={{
             top: item.position.row * DELTA + PAWN_TOP_PADDING,
             left: item.position.column * DELTA + PAWN_LEFT_PADDING
@@ -50,6 +56,31 @@ const Board = ({ squares, pawns }) => {
       ))}
     </View>
   );
+};
+
+Board.prototype = {
+  squares: PropTypes.arrayOf(
+    PropTypes.shape({
+      column: PropTypes.number.isRequired,
+      row: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  possiblesMoves: PropTypes.arrayOf(
+    PropTypes.shape({
+      column: PropTypes.number.isRequired,
+      row: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  pawns: PropTypes.arrayOf(
+    PropTypes.shape({
+      position: PropTypes.shape({
+        column: PropTypes.number.isRequired,
+        row: PropTypes.number.isRequired,
+      }),
+      goal: PropTypes.number,
+    })
+  ).isRequired,
+  disable: PropTypes.bool,
 };
 
 export default Board;
