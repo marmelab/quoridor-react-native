@@ -31,7 +31,7 @@ export const joinGame = gameId => {
   });
 };
 
-export const movePawn = (authToken, {gameId, position}) => {
+export const movePawn = (authToken, { gameId, position }) => {
   return fetch(`${API_BASE_URL}/games/${gameId}/move-pawn`, {
     method: "PUT",
     headers: {

@@ -6,12 +6,26 @@ import { createGame, joinGame, movePawn, getPossiblePawnMoves, getPossibleFences
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 30,
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
   },
+
+  buttons: {
+    paddingTop: 15,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+
+  addFence: {
+    width: '28%',
+    height: 15
+  }
+
 });
 
 const renderLoading = () => (
@@ -32,9 +46,12 @@ const showPossibilities = (isHorizontal, possibleFences, setMode, setPossibleFen
 
   setMode(modes.FENCE);
   setPossibleFences(fences);
-
-  console.log(isHorizontal, fences.length);
 }
+
+const backToMove = (setMode) => () => {
+  setMode(modes.MOVE);
+}
+
 const renderGame = (game, setMove, possiblesMoves, allPossibleFences, possibleFences, setPossibleFences, setFence, mode, setMode) => (
   <View>
     {getMessage(game)}
@@ -48,16 +65,29 @@ const renderGame = (game, setMove, possiblesMoves, allPossibleFences, possibleFe
       onClick={item => handleClickMove(item, setMove)}
       onFenceClick={item => handleClickFence(item, setFence)}
     />
-    <Button
-      onPress={showPossibilities(true, allPossibleFences, setMode, setPossibleFences)}
-      title="Add horizontal fence"
-      color="#841584"
-    />
-    <Button
-      onPress={showPossibilities(false, allPossibleFences, setMode, setPossibleFences)}
-      title="Add veritcal fence"
-      color="#841584"
-    />
+    <View style={styles.buttons}>
+      <View style={styles.addFence}>
+        <Button
+          onPress={backToMove(setMode)}
+          title="&#9823;"
+          color="green"
+        />
+      </View>
+      <View style={styles.addFence}>
+        <Button
+          onPress={showPossibilities(true, allPossibleFences, setMode, setPossibleFences)}
+          title="--"
+          color="green"
+        />
+      </View>
+      <View style={styles.addFence}>
+        <Button style={styles.addFence}
+          onPress={showPossibilities(false, allPossibleFences, setMode, setPossibleFences)}
+          title="|"
+          color="green"
+        />
+      </View>
+    </View>
   </View>
 );
 
@@ -132,7 +162,7 @@ const moveThePawn = async (position, players, game, setGame, setMode, setPossibl
   }
   const response = await movePawn(
     players[game.pawnTurn - 1],
-    {gameId: game.id, position: position}
+    { gameId: game.id, position: position }
   );
   const content = await response.json();
   if (!response.ok) {
