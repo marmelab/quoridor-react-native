@@ -35,7 +35,7 @@ const showPossibilities = (isHorizontal, possibleFences, setMode, setPossibleFen
 
   console.log(isHorizontal, fences.length);
 }
-const renderGame = (game, setMove, possiblesMoves, possibleAllFences, possibleFences, setPossibleFences, setFence, mode, setMode) => (
+const renderGame = (game, setMove, possiblesMoves, allPossibleFences, possibleFences, setPossibleFences, setFence, mode, setMode) => (
   <View>
     {getMessage(game)}
     <Board
@@ -49,12 +49,12 @@ const renderGame = (game, setMove, possiblesMoves, possibleAllFences, possibleFe
       onFenceClick={item => handleClickFence(item, setFence)}
     />
     <Button
-      onPress={showPossibilities(true, possibleAllFences, setMode, setPossibleFences)}
+      onPress={showPossibilities(true, allPossibleFences, setMode, setPossibleFences)}
       title="Add horizontal fence"
       color="#841584"
     />
     <Button
-      onPress={showPossibilities(false, possibleAllFences, setMode, setPossibleFences)}
+      onPress={showPossibilities(false, allPossibleFences, setMode, setPossibleFences)}
       title="Add veritcal fence"
       color="#841584"
     />
@@ -79,13 +79,13 @@ const getPossibleMoves = async (gameId, setPossibleMoves) => {
   setPossibleMoves(content);
 };
 
-const getPossibleFences = async (gameId, setPossibleAllFences) => {
+const getPossibleFences = async (gameId, setAllPossibleFences) => {
   const response = await getPossibleFencesAdds(gameId);
   const content = await response.json();
   if (!response.ok) {
     console.error(content);
   }
-  setPossibleAllFences(content);
+  setAllPossibleFences(content);
 };
 
 const joinTheGame = async (gameId, players, setPlayers) => {
@@ -99,7 +99,7 @@ const joinTheGame = async (gameId, players, setPlayers) => {
   setPlayers(players);
 };
 
-const initGame = async (setIsLoading, players, setPlayers, setGame, setMode, setPossibleMove, setPossibleAllFences) => {
+const initGame = async (setIsLoading, players, setPlayers, setGame, setMode, setPossibleMove, setAllPossibleFences) => {
   setIsLoading(true);
   const response = await createGame();
   const content = await response.json();
@@ -110,23 +110,23 @@ const initGame = async (setIsLoading, players, setPlayers, setGame, setMode, set
   setGame(content);
   joinTheGame(content.id, players, setPlayers);
   joinTheGame(content.id, players, setPlayers);
-  getPlayerPossibilities(content, setMode, setPossibleMove, setPossibleAllFences);
+  getPlayerPossibilities(content, setMode, setPossibleMove, setAllPossibleFences);
 
   setIsLoading(false);
 };
 
-const getPlayerPossibilities = (game, setMode, setPossibleMoves, setPossibleAllFences) => {
+const getPlayerPossibilities = (game, setMode, setPossibleMoves, setAllPossibleFences) => {
   setMode(modes.MOVE);
   if (game.over) {
     setPossibleMoves([]);
-    setPossibleAllFences([]);
+    setAllPossibleFences([]);
   } else {
     getPossibleMoves(game.id, setPossibleMoves);
-    getPossibleFences(game.id, setPossibleAllFences);
+    getPossibleFences(game.id, setAllPossibleFences);
   }
 }
 
-const moveThePawn = async (position, players, game, setGame, setMode, setPossibleMoves, setPossibleAllFences) => {
+const moveThePawn = async (position, players, game, setGame, setMode, setPossibleMoves, setAllPossibleFences) => {
   if (!position) {
     return;
   }
@@ -140,10 +140,10 @@ const moveThePawn = async (position, players, game, setGame, setMode, setPossibl
   }
   setGame(content);
 
-  getPlayerPossibilities(content, setMode, setPossibleMoves, setPossibleAllFences)
+  getPlayerPossibilities(content, setMode, setPossibleMoves, setAllPossibleFences)
 };
 
-const addTheFence = async (fence, players, game, setGame, setMode, setPossibleMoves, setPossibleAllFences) => {
+const addTheFence = async (fence, players, game, setGame, setMode, setPossibleMoves, setAllPossibleFences) => {
   if (!fence) {
     return;
   }
@@ -153,7 +153,7 @@ const addTheFence = async (fence, players, game, setGame, setMode, setPossibleMo
     return;
   }
   setGame(content);
-  getPlayerPossibilities(content, setMode, setPossibleMoves, setPossibleAllFences)
+  getPlayerPossibilities(content, setMode, setPossibleMoves, setAllPossibleFences)
 }
 
 const GameScreen = () => {
@@ -163,23 +163,23 @@ const GameScreen = () => {
   const [mode, setMode] = useState(modes.MOVE);
   const [possiblesMoves, setPossibleMoves] = useState([]);
   const [move, setMove] = useState();
-  const [possibleAllFences, setPossibleAllFences] = useState([]);
+  const [allPossibleFences, setAllPossibleFences] = useState([]);
   const [possibleFences, setPossibleFences] = useState([]);
   const [fence, setFence] = useState();
 
   useEffect(() => {
-    initGame(setIsLoading, players, setPlayers, setGame, setMode, setPossibleMoves, setPossibleAllFences);
+    initGame(setIsLoading, players, setPlayers, setGame, setMode, setPossibleMoves, setAllPossibleFences);
   }, []);
   useEffect(() => {
-    moveThePawn(move, players, game, setGame, setMode, setPossibleMoves, setPossibleAllFences);
+    moveThePawn(move, players, game, setGame, setMode, setPossibleMoves, setAllPossibleFences);
   }, [move]);
   useEffect(() => {
-    addTheFence(fence, players, game, setGame, setMode, setPossibleMoves, setPossibleAllFences);
+    addTheFence(fence, players, game, setGame, setMode, setPossibleMoves, setAllPossibleFences);
   }, [fence]);
 
   return (
     <View style={styles.container}>
-      {isLoading ? renderLoading() : renderGame(game, setMove, possiblesMoves, possibleAllFences, possibleFences, setPossibleFences, setFence, mode, setMode)}
+      {isLoading ? renderLoading() : renderGame(game, setMove, possiblesMoves, allPossibleFences, possibleFences, setPossibleFences, setFence, mode, setMode)}
     </View>
   );
 };
