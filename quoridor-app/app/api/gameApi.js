@@ -51,3 +51,24 @@ export const getPossiblePawnMoves = gameId => {
     },
   });
 };
+
+export const getPossibleFencesAdds = async gameId => {
+  return await fetch(`${API_BASE_URL}/games/${gameId}/add-fence/possibilities`, {
+    method: "GET",
+    headers: {
+      Accept: JSON_TYPE,
+    },
+  });
+};
+
+export const addFence = async (authToken, gameId, fence) => {
+  return await fetch(`${API_BASE_URL}/games/${gameId}/add-fence`, {
+    method: "PUT",
+    headers: {
+      Accept: JSON_TYPE,
+      "Content-Type": JSON_TYPE,
+      Authorization: authToken
+    },
+    body: JSON.stringify(fence)
+  });
+};
