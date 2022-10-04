@@ -14,7 +14,7 @@
     "testEnvironment": "jsdom"
   },
   "dependencies": {
-    "expo": "33.0.7",
+    "expo": "46.0.14",
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
